@@ -126,6 +126,17 @@ export default function OwnerSalary() {
     fetchData();
   };
 
+  const undoPaid = async (emp: EmployeeWithSalary) => {
+    if (!emp.record?.id) return;
+    const { error } = await supabase.from("salary_records").update({
+      is_paid: false,
+      paid_date: null,
+    }).eq("id", emp.record.id);
+    if (error) { toast({ title: "Error", description: error.message, variant: "destructive" }); return; }
+    toast({ title: "Payment reverted" });
+    fetchData();
+  };
+
   const unpaidWithSalary = useMemo(() => employees.filter(e => !e.record?.is_paid && e.salary), [employees]);
 
   const markAllPaid = async () => {
@@ -316,11 +327,15 @@ export default function OwnerSalary() {
                         ) : (
                           <Badge variant="outline">Unpaid ❌</Badge>
                         )}
-                        {!isPaid && emp.salary && (
+                        {isPaid ? (
+                          <Button size="sm" variant="outline" onClick={(e) => { e.stopPropagation(); undoPaid(emp); }}>
+                            Undo Paid
+                          </Button>
+                        ) : emp.salary ? (
                           <Button size="sm" onClick={(e) => { e.stopPropagation(); markPaid(emp); }}>
                             <Check className="h-4 w-4 mr-1" /> Mark Paid
                           </Button>
-                        )}
+                        ) : null}
                       </div>
                     </div>
                   </CollapsibleTrigger>
