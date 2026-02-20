@@ -18,6 +18,7 @@ import OwnerAttendance from "./pages/owner/Attendance";
 import OwnerSalary from "./pages/owner/Salary";
 import OwnerTasks from "./pages/owner/Tasks";
 import OwnerRequests from "./pages/owner/Requests";
+import OwnerWorkPlans from "./pages/owner/WorkPlans";
 
 import EmployeeDashboard from "./pages/employee/Dashboard";
 import EmployeeProfile from "./pages/employee/Profile";
@@ -27,6 +28,7 @@ import EmployeeAttendance from "./pages/employee/Attendance";
 import EmployeeSalary from "./pages/employee/Salary";
 import EmployeeTasks from "./pages/employee/Tasks";
 import EmployeeRequests from "./pages/employee/Requests";
+import EmployeeWorkPlan from "./pages/employee/WorkPlan";
 
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminUsers from "./pages/admin/Users";
@@ -67,6 +69,7 @@ const App = () => (
             <Route path="/owner/salary" element={<ProtectedRoute allowedRole="owner"><DashboardLayout><OwnerSalary /></DashboardLayout></ProtectedRoute>} />
             <Route path="/owner/tasks" element={<ProtectedRoute allowedRole="owner"><DashboardLayout><OwnerTasks /></DashboardLayout></ProtectedRoute>} />
             <Route path="/owner/requests" element={<ProtectedRoute allowedRole="owner"><DashboardLayout><OwnerRequests /></DashboardLayout></ProtectedRoute>} />
+            <Route path="/owner/work-plans" element={<ProtectedRoute allowedRole="owner"><DashboardLayout><OwnerWorkPlans /></DashboardLayout></ProtectedRoute>} />
             <Route path="/owner/chat" element={<ProtectedRoute allowedRole="owner"><DashboardLayout><Chat /></DashboardLayout></ProtectedRoute>} />
 
             {/* Employee Routes */}
@@ -78,6 +81,7 @@ const App = () => (
             <Route path="/employee/salary" element={<ProtectedRoute allowedRole="employee"><DashboardLayout><EmployeeSalary /></DashboardLayout></ProtectedRoute>} />
             <Route path="/employee/tasks" element={<ProtectedRoute allowedRole="employee"><DashboardLayout><EmployeeTasks /></DashboardLayout></ProtectedRoute>} />
             <Route path="/employee/requests" element={<ProtectedRoute allowedRole="employee"><DashboardLayout><EmployeeRequests /></DashboardLayout></ProtectedRoute>} />
+            <Route path="/employee/work-plan" element={<ProtectedRoute allowedRole="employee"><DashboardLayout><EmployeeWorkPlan /></DashboardLayout></ProtectedRoute>} />
             <Route path="/employee/chat" element={<ProtectedRoute allowedRole="employee"><DashboardLayout><Chat /></DashboardLayout></ProtectedRoute>} />
 
             {/* Super Admin Routes */}
@@ -91,6 +95,7 @@ const App = () => (
             <Route path="/admin/salary" element={<ProtectedRoute allowedRole="super_admin"><DashboardLayout><OwnerSalary /></DashboardLayout></ProtectedRoute>} />
             <Route path="/admin/tasks" element={<ProtectedRoute allowedRole="super_admin"><DashboardLayout><OwnerTasks /></DashboardLayout></ProtectedRoute>} />
             <Route path="/admin/requests" element={<ProtectedRoute allowedRole="super_admin"><DashboardLayout><OwnerRequests /></DashboardLayout></ProtectedRoute>} />
+            <Route path="/admin/work-plans" element={<ProtectedRoute allowedRole="super_admin"><DashboardLayout><OwnerWorkPlans /></DashboardLayout></ProtectedRoute>} />
             <Route path="/admin/settings" element={<ProtectedRoute allowedRole="super_admin"><DashboardLayout><AdminSettings /></DashboardLayout></ProtectedRoute>} />
             <Route path="/admin/chat" element={<ProtectedRoute allowedRole="super_admin"><DashboardLayout><Chat /></DashboardLayout></ProtectedRoute>} />
 

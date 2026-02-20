@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import {
   LayoutDashboard, Users, CalendarDays, Megaphone, Clock, DollarSign,
   ListTodo, MessageSquare, User, LogOut, Menu, X, Moon, Sun, Shield, Settings,
-  MessagesSquare,
+  MessagesSquare, ClipboardList,
 } from "lucide-react";
 import NotificationBell from "./NotificationBell";
 
@@ -25,6 +25,7 @@ const ownerNav: NavItem[] = [
   { label: "Salary", href: "/owner/salary", icon: DollarSign },
   { label: "Tasks", href: "/owner/tasks", icon: ListTodo },
   { label: "Requests", href: "/owner/requests", icon: MessageSquare },
+  { label: "Work Plans", href: "/owner/work-plans", icon: ClipboardList },
   { label: "Chat", href: "/owner/chat", icon: MessagesSquare },
 ];
 
@@ -37,6 +38,7 @@ const employeeNav: NavItem[] = [
   { label: "Salary", href: "/employee/salary", icon: DollarSign },
   { label: "Tasks", href: "/employee/tasks", icon: ListTodo },
   { label: "Requests", href: "/employee/requests", icon: MessageSquare },
+  { label: "Work Plan", href: "/employee/work-plan", icon: ClipboardList },
   { label: "Chat", href: "/employee/chat", icon: MessagesSquare },
 ];
 
@@ -51,6 +53,7 @@ const superAdminNav: NavItem[] = [
   { label: "Salary", href: "/admin/salary", icon: DollarSign },
   { label: "Tasks", href: "/admin/tasks", icon: ListTodo },
   { label: "Requests", href: "/admin/requests", icon: MessageSquare },
+  { label: "Work Plans", href: "/admin/work-plans", icon: ClipboardList },
   { label: "Chat", href: "/admin/chat", icon: MessagesSquare },
   { label: "Settings", href: "/admin/settings", icon: Settings },
 ];
