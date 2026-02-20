@@ -35,6 +35,7 @@ export default function OwnerSalary() {
   const [year, setYear] = useState(new Date().getFullYear().toString());
   const [workingDays, setWorkingDays] = useState(26);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [markingAll, setMarkingAll] = useState(false);
   const { toast } = useToast();
 
   const fetchData = async () => {
@@ -123,6 +124,16 @@ export default function OwnerSalary() {
     if (error) { toast({ title: "Error", description: error.message, variant: "destructive" }); return; }
     toast({ title: "Salary marked as paid" });
     fetchData();
+  };
+
+  const unpaidWithSalary = useMemo(() => employees.filter(e => !e.record?.is_paid && e.salary), [employees]);
+
+  const markAllPaid = async () => {
+    setMarkingAll(true);
+    for (const emp of unpaidWithSalary) {
+      await markPaid(emp);
+    }
+    setMarkingAll(false);
   };
 
   const totalPayroll = useMemo(() => employees.reduce((s, e) => s + e.breakdown.finalSalary, 0), [employees]);
@@ -231,6 +242,11 @@ export default function OwnerSalary() {
             <SelectTrigger className="w-[100px]"><SelectValue /></SelectTrigger>
             <SelectContent>{[2024,2025,2026].map(y => <SelectItem key={y} value={y.toString()}>{y}</SelectItem>)}</SelectContent>
           </Select>
+          {unpaidWithSalary.length > 0 && (
+            <Button onClick={markAllPaid} disabled={markingAll}>
+              <Check className="h-4 w-4 mr-1" /> {markingAll ? "Marking..." : `Mark All Paid (${unpaidWithSalary.length})`}
+            </Button>
+          )}
         </div>
       </div>
 
