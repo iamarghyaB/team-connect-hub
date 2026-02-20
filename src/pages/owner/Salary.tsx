@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -328,13 +328,45 @@ export default function OwnerSalary() {
                           <Badge variant="outline">Unpaid ❌</Badge>
                         )}
                         {isPaid ? (
-                          <Button size="sm" variant="outline" onClick={(e) => { e.stopPropagation(); undoPaid(emp); }}>
-                            Undo Paid
-                          </Button>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button size="sm" variant="outline" onClick={(e) => e.stopPropagation()}>
+                                Undo Paid
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Undo Payment?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  This will revert <strong>{emp.full_name}</strong>'s salary payment of <strong>{formatCurrency(emp.breakdown.finalSalary)}</strong> for {MONTHS[parseInt(month) - 1]} {year}. Are you sure?
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => undoPaid(emp)}>Yes, Undo</AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         ) : emp.salary ? (
-                          <Button size="sm" onClick={(e) => { e.stopPropagation(); markPaid(emp); }}>
-                            <Check className="h-4 w-4 mr-1" /> Mark Paid
-                          </Button>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button size="sm" onClick={(e) => e.stopPropagation()}>
+                                <Check className="h-4 w-4 mr-1" /> Mark Paid
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Confirm Payment</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Mark <strong>{emp.full_name}</strong>'s salary of <strong>{formatCurrency(emp.breakdown.finalSalary)}</strong> as paid for {MONTHS[parseInt(month) - 1]} {year}?
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => markPaid(emp)}>Yes, Mark Paid</AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         ) : null}
                       </div>
                     </div>
