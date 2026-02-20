@@ -18,6 +18,7 @@ import { format } from "date-fns";
 export default function OwnerTasks() {
   const [tasks, setTasks] = useState<any[]>([]);
   const [employees, setEmployees] = useState<any[]>([]);
+  const [profiles, setProfiles] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [form, setForm] = useState({ title: "", description: "", assigned_to: "", priority: "medium", deadline: "" });
@@ -26,11 +27,16 @@ export default function OwnerTasks() {
 
   const fetchData = async () => {
     const [taskRes, empRes] = await Promise.all([
-      supabase.from("tasks").select("*, profiles!tasks_assigned_to_fkey(full_name)").order("created_at", { ascending: false }),
+      supabase.from("tasks").select("*").order("created_at", { ascending: false }),
       supabase.from("profiles").select("user_id, full_name").eq("is_active", true),
     ]);
     if (taskRes.data) setTasks(taskRes.data);
-    if (empRes.data) setEmployees(empRes.data);
+    if (empRes.data) {
+      setEmployees(empRes.data);
+      const map: Record<string, string> = {};
+      empRes.data.forEach(e => { map[e.user_id] = e.full_name; });
+      setProfiles(map);
+    }
     setLoading(false);
   };
 
@@ -79,7 +85,7 @@ export default function OwnerTasks() {
                     <p className="font-medium">{t.title}</p>
                     {t.description && <p className="text-xs text-muted-foreground truncate max-w-[200px]">{t.description}</p>}
                   </TableCell>
-                  <TableCell>{t.profiles?.full_name || "Unknown"}</TableCell>
+                  <TableCell>{profiles[t.assigned_to] || "Unknown"}</TableCell>
                   <TableCell><Badge variant={priorityColor(t.priority) as any} className="capitalize">{t.priority}</Badge></TableCell>
                   <TableCell><span className={`inline-flex rounded-full px-2 py-1 text-xs font-medium capitalize ${statusColor(t.status)}`}>{t.status.replace("_", " ")}</span></TableCell>
                   <TableCell>{t.deadline ? format(new Date(t.deadline), "MMM d, yyyy") : "—"}</TableCell>

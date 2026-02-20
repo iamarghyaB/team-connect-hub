@@ -13,14 +13,21 @@ import { format } from "date-fns";
 
 export default function OwnerRequests() {
   const [requests, setRequests] = useState<any[]>([]);
+  const [profiles, setProfiles] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [selectedReq, setSelectedReq] = useState<any>(null);
   const [reply, setReply] = useState("");
   const { toast } = useToast();
 
   const fetchRequests = async () => {
-    const { data } = await supabase.from("general_requests").select("*, profiles!general_requests_employee_id_fkey(full_name)").order("created_at", { ascending: false });
-    if (data) setRequests(data);
+    const [reqRes, profRes] = await Promise.all([
+      supabase.from("general_requests").select("*").order("created_at", { ascending: false }),
+      supabase.from("profiles").select("user_id, full_name"),
+    ]);
+    if (reqRes.data) setRequests(reqRes.data);
+    const map: Record<string, string> = {};
+    profRes.data?.forEach(p => { map[p.user_id] = p.full_name; });
+    setProfiles(map);
     setLoading(false);
   };
 
@@ -56,7 +63,7 @@ export default function OwnerRequests() {
             <TableBody>
               {requests.map(r => (
                 <TableRow key={r.id}>
-                  <TableCell className="font-medium">{r.profiles?.full_name || "Unknown"}</TableCell>
+                  <TableCell className="font-medium">{profiles[r.employee_id] || "Unknown"}</TableCell>
                   <TableCell>{r.subject}</TableCell>
                   <TableCell>{format(new Date(r.created_at), "MMM d, yyyy")}</TableCell>
                   <TableCell><Badge variant={statusColor(r.status) as any} className="capitalize">{r.status}</Badge></TableCell>
@@ -75,6 +82,7 @@ export default function OwnerRequests() {
           <DialogHeader><DialogTitle>Request Details</DialogTitle></DialogHeader>
           {selectedReq && (
             <div className="space-y-4">
+              <div><p className="text-sm font-medium text-muted-foreground">From</p><p className="font-medium">{profiles[selectedReq.employee_id] || "Unknown"}</p></div>
               <div><p className="text-sm font-medium text-muted-foreground">Subject</p><p className="font-medium">{selectedReq.subject}</p></div>
               <div><p className="text-sm font-medium text-muted-foreground">Message</p><p className="text-sm">{selectedReq.message}</p></div>
               <div className="space-y-2"><p className="text-sm font-medium text-muted-foreground">Reply</p><Textarea value={reply} onChange={(e) => setReply(e.target.value)} rows={3} /></div>
