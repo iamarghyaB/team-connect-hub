@@ -44,6 +44,42 @@ export type Database = {
         }
         Relationships: []
       }
+      attendance_edits_log: {
+        Row: {
+          attendance_id: string
+          changed_at: string
+          changed_by: string
+          date: string
+          employee_id: string
+          id: string
+          new_status: string
+          original_status: string
+          reason: string
+        }
+        Insert: {
+          attendance_id: string
+          changed_at?: string
+          changed_by: string
+          date: string
+          employee_id: string
+          id?: string
+          new_status: string
+          original_status: string
+          reason: string
+        }
+        Update: {
+          attendance_id?: string
+          changed_at?: string
+          changed_by?: string
+          date?: string
+          employee_id?: string
+          id?: string
+          new_status?: string
+          original_status?: string
+          reason?: string
+        }
+        Relationships: []
+      }
       chat_messages: {
         Row: {
           content: string
@@ -309,19 +345,105 @@ export type Database = {
         }
         Relationships: []
       }
+      salary_adjustments: {
+        Row: {
+          added_by: string
+          amount: number
+          created_at: string
+          employee_id: string
+          id: string
+          month: number
+          reason: string
+          salary_record_id: string
+          type: string
+          year: number
+        }
+        Insert: {
+          added_by: string
+          amount?: number
+          created_at?: string
+          employee_id: string
+          id?: string
+          month: number
+          reason: string
+          salary_record_id: string
+          type: string
+          year: number
+        }
+        Update: {
+          added_by?: string
+          amount?: number
+          created_at?: string
+          employee_id?: string
+          id?: string
+          month?: number
+          reason?: string
+          salary_record_id?: string
+          type?: string
+          year?: number
+        }
+        Relationships: []
+      }
+      salary_audit_log: {
+        Row: {
+          action: string
+          created_at: string
+          done_by: string
+          employee_id: string
+          id: string
+          month: number
+          new_value: string | null
+          old_value: string | null
+          reason: string | null
+          salary_record_id: string | null
+          year: number
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          done_by: string
+          employee_id: string
+          id?: string
+          month: number
+          new_value?: string | null
+          old_value?: string | null
+          reason?: string | null
+          salary_record_id?: string | null
+          year: number
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          done_by?: string
+          employee_id?: string
+          id?: string
+          month?: number
+          new_value?: string | null
+          old_value?: string | null
+          reason?: string | null
+          salary_record_id?: string | null
+          year?: number
+        }
+        Relationships: []
+      }
       salary_records: {
         Row: {
           absent_days: number
           amount: number
+          approved_at: string | null
+          approved_by: string | null
           base_salary: number | null
+          bonus_total: number
           created_at: string
           deduction_amount: number
+          deduction_extra_total: number
           employee_id: string
           final_salary: number
           generated_at: string | null
           half_day_amount: number
           half_days: number
           id: string
+          is_locked: boolean
           is_paid: boolean
           leave_amount: number
           leave_days: number
@@ -330,21 +452,30 @@ export type Database = {
           per_day_rate: number
           present_amount: number
           present_days: number
+          review_note: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          stage: string
           total_working_days: number
           year: number
         }
         Insert: {
           absent_days?: number
           amount: number
+          approved_at?: string | null
+          approved_by?: string | null
           base_salary?: number | null
+          bonus_total?: number
           created_at?: string
           deduction_amount?: number
+          deduction_extra_total?: number
           employee_id: string
           final_salary?: number
           generated_at?: string | null
           half_day_amount?: number
           half_days?: number
           id?: string
+          is_locked?: boolean
           is_paid?: boolean
           leave_amount?: number
           leave_days?: number
@@ -353,21 +484,30 @@ export type Database = {
           per_day_rate?: number
           present_amount?: number
           present_days?: number
+          review_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          stage?: string
           total_working_days?: number
           year: number
         }
         Update: {
           absent_days?: number
           amount?: number
+          approved_at?: string | null
+          approved_by?: string | null
           base_salary?: number | null
+          bonus_total?: number
           created_at?: string
           deduction_amount?: number
+          deduction_extra_total?: number
           employee_id?: string
           final_salary?: number
           generated_at?: string | null
           half_day_amount?: number
           half_days?: number
           id?: string
+          is_locked?: boolean
           is_paid?: boolean
           leave_amount?: number
           leave_days?: number
@@ -376,6 +516,10 @@ export type Database = {
           per_day_rate?: number
           present_amount?: number
           present_days?: number
+          review_note?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          stage?: string
           total_working_days?: number
           year?: number
         }
