@@ -21,6 +21,7 @@ export type Database = {
           employee_id: string
           id: string
           marked_by: string | null
+          note: string | null
           status: string
         }
         Insert: {
@@ -29,6 +30,7 @@ export type Database = {
           employee_id: string
           id?: string
           marked_by?: string | null
+          note?: string | null
           status?: string
         }
         Update: {
@@ -37,6 +39,7 @@ export type Database = {
           employee_id?: string
           id?: string
           marked_by?: string | null
+          note?: string | null
           status?: string
         }
         Relationships: []
@@ -308,33 +311,72 @@ export type Database = {
       }
       salary_records: {
         Row: {
+          absent_days: number
           amount: number
+          base_salary: number | null
           created_at: string
+          deduction_amount: number
           employee_id: string
+          final_salary: number
+          generated_at: string | null
+          half_day_amount: number
+          half_days: number
           id: string
           is_paid: boolean
+          leave_amount: number
+          leave_days: number
           month: number
           paid_date: string | null
+          per_day_rate: number
+          present_amount: number
+          present_days: number
+          total_working_days: number
           year: number
         }
         Insert: {
+          absent_days?: number
           amount: number
+          base_salary?: number | null
           created_at?: string
+          deduction_amount?: number
           employee_id: string
+          final_salary?: number
+          generated_at?: string | null
+          half_day_amount?: number
+          half_days?: number
           id?: string
           is_paid?: boolean
+          leave_amount?: number
+          leave_days?: number
           month: number
           paid_date?: string | null
+          per_day_rate?: number
+          present_amount?: number
+          present_days?: number
+          total_working_days?: number
           year: number
         }
         Update: {
+          absent_days?: number
           amount?: number
+          base_salary?: number | null
           created_at?: string
+          deduction_amount?: number
           employee_id?: string
+          final_salary?: number
+          generated_at?: string | null
+          half_day_amount?: number
+          half_days?: number
           id?: string
           is_paid?: boolean
+          leave_amount?: number
+          leave_days?: number
           month?: number
           paid_date?: string | null
+          per_day_rate?: number
+          present_amount?: number
+          present_days?: number
+          total_working_days?: number
           year?: number
         }
         Relationships: []
