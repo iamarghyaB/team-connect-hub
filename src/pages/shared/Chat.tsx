@@ -158,7 +158,8 @@ export default function Chat() {
     toast({ title: "Chat created" });
   };
 
-  const getRoomDisplayName = (room: Room) => {
+  const getRoomDisplayName = (room?: Room) => {
+    if (!room) return "Chat";
     if (room.type === "group") return room.name || "Group";
     return room.name || "Direct Message";
   };
