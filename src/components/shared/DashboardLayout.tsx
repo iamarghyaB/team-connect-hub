@@ -6,7 +6,9 @@ import { cn } from "@/lib/utils";
 import {
   LayoutDashboard, Users, CalendarDays, Megaphone, Clock, DollarSign,
   ListTodo, MessageSquare, User, LogOut, Menu, X, Moon, Sun, Shield, Settings,
+  MessagesSquare,
 } from "lucide-react";
+import NotificationBell from "./NotificationBell";
 
 interface NavItem {
   label: string;
@@ -23,6 +25,7 @@ const ownerNav: NavItem[] = [
   { label: "Salary", href: "/owner/salary", icon: DollarSign },
   { label: "Tasks", href: "/owner/tasks", icon: ListTodo },
   { label: "Requests", href: "/owner/requests", icon: MessageSquare },
+  { label: "Chat", href: "/owner/chat", icon: MessagesSquare },
 ];
 
 const employeeNav: NavItem[] = [
@@ -34,6 +37,7 @@ const employeeNav: NavItem[] = [
   { label: "Salary", href: "/employee/salary", icon: DollarSign },
   { label: "Tasks", href: "/employee/tasks", icon: ListTodo },
   { label: "Requests", href: "/employee/requests", icon: MessageSquare },
+  { label: "Chat", href: "/employee/chat", icon: MessagesSquare },
 ];
 
 const superAdminNav: NavItem[] = [
@@ -47,6 +51,7 @@ const superAdminNav: NavItem[] = [
   { label: "Salary", href: "/admin/salary", icon: DollarSign },
   { label: "Tasks", href: "/admin/tasks", icon: ListTodo },
   { label: "Requests", href: "/admin/requests", icon: MessageSquare },
+  { label: "Chat", href: "/admin/chat", icon: MessagesSquare },
   { label: "Settings", href: "/admin/settings", icon: Settings },
 ];
 
@@ -141,6 +146,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             <Menu className="h-5 w-5" />
           </button>
           <div className="flex-1" />
+          <NotificationBell />
           <Button variant="ghost" size="icon" onClick={toggleDark}>
             {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>

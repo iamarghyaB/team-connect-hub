@@ -43,10 +43,16 @@ export default function OwnerTasks() {
   useEffect(() => { fetchData(); }, []);
 
   const handleCreate = async () => {
-    const { error } = await supabase.from("tasks").insert({
+    const { data, error } = await supabase.from("tasks").insert({
       ...form, assigned_by: user?.id, deadline: form.deadline || null, description: form.description || null,
-    });
+    }).select().single();
     if (error) { toast({ title: "Error", description: error.message, variant: "destructive" }); return; }
+    // Send notification to assigned employee
+    if (data) {
+      await supabase.from("notifications").insert({
+        user_id: form.assigned_to, title: "New Task Assigned", message: `You have been assigned: "${form.title}"`, type: "task", reference_id: data.id,
+      });
+    }
     toast({ title: "Task assigned" }); setDialogOpen(false); fetchData();
   };
 
