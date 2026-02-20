@@ -165,6 +165,192 @@ export type Database = {
         }
         Relationships: []
       }
+      daily_reports: {
+        Row: {
+          blockers_for_tomorrow: string | null
+          completion_percentage: number
+          created_at: string
+          employee_id: string
+          employee_notes: string | null
+          id: string
+          is_locked: boolean
+          owner_feedback: string | null
+          plan_id: string | null
+          report_date: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          submitted_at: string | null
+          tasks_completed: number
+          tasks_total: number
+        }
+        Insert: {
+          blockers_for_tomorrow?: string | null
+          completion_percentage?: number
+          created_at?: string
+          employee_id: string
+          employee_notes?: string | null
+          id?: string
+          is_locked?: boolean
+          owner_feedback?: string | null
+          plan_id?: string | null
+          report_date: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          submitted_at?: string | null
+          tasks_completed?: number
+          tasks_total?: number
+        }
+        Update: {
+          blockers_for_tomorrow?: string | null
+          completion_percentage?: number
+          created_at?: string
+          employee_id?: string
+          employee_notes?: string | null
+          id?: string
+          is_locked?: boolean
+          owner_feedback?: string | null
+          plan_id?: string | null
+          report_date?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          submitted_at?: string | null
+          tasks_completed?: number
+          tasks_total?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_reports_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "daily_work_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      daily_tasks: {
+        Row: {
+          actual_duration_minutes: number | null
+          category: string
+          completed_at: string | null
+          created_at: string
+          deadline_time: string | null
+          description: string | null
+          employee_id: string
+          employee_note: string | null
+          expected_duration_minutes: number | null
+          id: string
+          is_mandatory: boolean
+          paused_at: string | null
+          plan_id: string
+          priority: string
+          sort_order: number
+          started_at: string | null
+          status: string
+          stuck_reason: string | null
+          title: string
+        }
+        Insert: {
+          actual_duration_minutes?: number | null
+          category?: string
+          completed_at?: string | null
+          created_at?: string
+          deadline_time?: string | null
+          description?: string | null
+          employee_id: string
+          employee_note?: string | null
+          expected_duration_minutes?: number | null
+          id?: string
+          is_mandatory?: boolean
+          paused_at?: string | null
+          plan_id: string
+          priority?: string
+          sort_order?: number
+          started_at?: string | null
+          status?: string
+          stuck_reason?: string | null
+          title: string
+        }
+        Update: {
+          actual_duration_minutes?: number | null
+          category?: string
+          completed_at?: string | null
+          created_at?: string
+          deadline_time?: string | null
+          description?: string | null
+          employee_id?: string
+          employee_note?: string | null
+          expected_duration_minutes?: number | null
+          id?: string
+          is_mandatory?: boolean
+          paused_at?: string | null
+          plan_id?: string
+          priority?: string
+          sort_order?: number
+          started_at?: string | null
+          status?: string
+          stuck_reason?: string | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_tasks_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "daily_work_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      daily_work_plans: {
+        Row: {
+          assigned_by: string
+          completed_tasks: number
+          completion_percentage: number
+          created_at: string
+          employee_id: string
+          id: string
+          note_from_owner: string | null
+          plan_date: string
+          status: string
+          template_id: string | null
+          total_tasks: number
+        }
+        Insert: {
+          assigned_by: string
+          completed_tasks?: number
+          completion_percentage?: number
+          created_at?: string
+          employee_id: string
+          id?: string
+          note_from_owner?: string | null
+          plan_date: string
+          status?: string
+          template_id?: string | null
+          total_tasks?: number
+        }
+        Update: {
+          assigned_by?: string
+          completed_tasks?: number
+          completion_percentage?: number
+          created_at?: string
+          employee_id?: string
+          id?: string
+          note_from_owner?: string | null
+          plan_date?: string
+          status?: string
+          template_id?: string | null
+          total_tasks?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_work_plans_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "work_plan_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       general_requests: {
         Row: {
           created_at: string
@@ -294,6 +480,39 @@ export type Database = {
         }
         Relationships: []
       }
+      personal_tasks: {
+        Row: {
+          created_at: string
+          description: string | null
+          due_date: string | null
+          employee_id: string
+          id: string
+          priority: string
+          status: string
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          due_date?: string | null
+          employee_id: string
+          id?: string
+          priority?: string
+          status?: string
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          due_date?: string | null
+          employee_id?: string
+          id?: string
+          priority?: string
+          status?: string
+          title?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           address: string | null
@@ -344,6 +563,47 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      recurring_schedule: {
+        Row: {
+          assigned_to_all: boolean
+          created_at: string
+          created_by: string
+          day_of_week: number
+          department: string | null
+          id: string
+          is_active: boolean
+          template_id: string
+        }
+        Insert: {
+          assigned_to_all?: boolean
+          created_at?: string
+          created_by: string
+          day_of_week: number
+          department?: string | null
+          id?: string
+          is_active?: boolean
+          template_id: string
+        }
+        Update: {
+          assigned_to_all?: boolean
+          created_at?: string
+          created_by?: string
+          day_of_week?: number
+          department?: string | null
+          id?: string
+          is_active?: boolean
+          template_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recurring_schedule_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "work_plan_templates"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       salary_adjustments: {
         Row: {
@@ -525,6 +785,41 @@ export type Database = {
         }
         Relationships: []
       }
+      task_activity_log: {
+        Row: {
+          action: string
+          created_at: string
+          employee_id: string
+          id: string
+          note: string | null
+          task_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          employee_id: string
+          id?: string
+          note?: string | null
+          task_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          employee_id?: string
+          id?: string
+          note?: string | null
+          task_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "task_activity_log_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "daily_tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tasks: {
         Row: {
           assigned_by: string | null
@@ -561,6 +856,56 @@ export type Database = {
         }
         Relationships: []
       }
+      template_tasks: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          expected_duration_minutes: number | null
+          id: string
+          is_mandatory: boolean
+          priority: string
+          repeat_type: string
+          sort_order: number
+          template_id: string
+          title: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          expected_duration_minutes?: number | null
+          id?: string
+          is_mandatory?: boolean
+          priority?: string
+          repeat_type?: string
+          sort_order?: number
+          template_id: string
+          title: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          expected_duration_minutes?: number | null
+          id?: string
+          is_mandatory?: boolean
+          priority?: string
+          repeat_type?: string
+          sort_order?: number
+          template_id?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "template_tasks_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "work_plan_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -579,6 +924,36 @@ export type Database = {
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
+        }
+        Relationships: []
+      }
+      work_plan_templates: {
+        Row: {
+          created_at: string
+          created_by: string
+          department: string | null
+          description: string | null
+          id: string
+          is_active: boolean
+          template_name: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          department?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          template_name: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          department?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          template_name?: string
         }
         Relationships: []
       }
