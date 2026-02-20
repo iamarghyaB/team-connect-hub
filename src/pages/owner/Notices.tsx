@@ -50,7 +50,7 @@ export default function OwnerNotices() {
   const openEdit = (n: Notice) => { setEditing(n); setForm({ title: n.title, content: n.content, target_department: n.target_department || "", priority: n.priority }); setDialogOpen(true); };
 
   const handleSave = async () => {
-    const payload = { ...form, target_department: form.target_department || null, posted_by: user?.id };
+    const payload = { ...form, target_department: form.target_department === "all" || !form.target_department ? null : form.target_department, posted_by: user?.id };
     if (editing) {
       const { error } = await supabase.from("notices").update(payload).eq("id", editing.id);
       if (error) { toast({ title: "Error", description: error.message, variant: "destructive" }); return; }
@@ -129,7 +129,7 @@ export default function OwnerNotices() {
                 <Select value={form.target_department} onValueChange={(v) => setForm({...form, target_department: v})}>
                   <SelectTrigger><SelectValue placeholder="All departments" /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Departments</SelectItem>
+                    <SelectItem value="all">All Departments</SelectItem>
                     {DEPARTMENTS.map(d => <SelectItem key={d} value={d}>{d}</SelectItem>)}
                   </SelectContent>
                 </Select>
