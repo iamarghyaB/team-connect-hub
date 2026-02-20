@@ -408,6 +408,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_chat_room_member: {
+        Args: { _room_id: string; _user_id: string }
+        Returns: boolean
+      }
       is_owner: { Args: { _user_id: string }; Returns: boolean }
       is_super_admin: { Args: { _user_id: string }; Returns: boolean }
     }
