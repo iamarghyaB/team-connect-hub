@@ -20,21 +20,24 @@ interface LeaveRequest {
   reason: string | null;
   status: string;
   created_at: string;
-  profiles?: { full_name: string } | null;
 }
 
 export default function OwnerLeaves() {
   const [leaves, setLeaves] = useState<LeaveRequest[]>([]);
+  const [profiles, setProfiles] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
   const { toast } = useToast();
 
   const fetchLeaves = async () => {
-    const { data } = await supabase
-      .from("leave_requests")
-      .select("*, profiles!leave_requests_employee_id_fkey(full_name)")
-      .order("created_at", { ascending: false });
-    if (data) setLeaves(data as any);
+    const [leavesRes, profilesRes] = await Promise.all([
+      supabase.from("leave_requests").select("*").order("created_at", { ascending: false }),
+      supabase.from("profiles").select("user_id, full_name"),
+    ]);
+    if (leavesRes.data) setLeaves(leavesRes.data);
+    const map: Record<string, string> = {};
+    profilesRes.data?.forEach(p => { map[p.user_id] = p.full_name; });
+    setProfiles(map);
     setLoading(false);
   };
 
@@ -78,7 +81,7 @@ export default function OwnerLeaves() {
                 <TableBody>
                   {pending.map((l) => (
                     <TableRow key={l.id}>
-                      <TableCell className="font-medium">{(l as any).profiles?.full_name || "Unknown"}</TableCell>
+                      <TableCell className="font-medium">{profiles[l.employee_id] || "Unknown"}</TableCell>
                       <TableCell><Badge variant="outline" className="capitalize">{l.leave_type}</Badge></TableCell>
                       <TableCell>{format(new Date(l.start_date), "MMM d")} – {format(new Date(l.end_date), "MMM d, yyyy")}</TableCell>
                       <TableCell className="max-w-[200px] truncate">{l.reason || "—"}</TableCell>
@@ -110,7 +113,7 @@ export default function OwnerLeaves() {
                 <TableBody>
                   {history.map((l) => (
                     <TableRow key={l.id}>
-                      <TableCell>{(l as any).profiles?.full_name || "Unknown"}</TableCell>
+                      <TableCell>{profiles[l.employee_id] || "Unknown"}</TableCell>
                       <TableCell className="capitalize">{l.leave_type}</TableCell>
                       <TableCell>{format(new Date(l.start_date), "MMM d")} – {format(new Date(l.end_date), "MMM d, yyyy")}</TableCell>
                       <TableCell>

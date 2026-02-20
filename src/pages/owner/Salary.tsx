@@ -21,7 +21,7 @@ export default function OwnerSalary() {
 
   const fetchData = async () => {
     const [salRes, empRes] = await Promise.all([
-      supabase.from("salary_records").select("*, profiles!salary_records_employee_id_fkey(full_name)").eq("month", parseInt(month)).eq("year", parseInt(year)),
+      supabase.from("salary_records").select("*").eq("month", parseInt(month)).eq("year", parseInt(year)),
       supabase.from("profiles").select("user_id, full_name, salary").eq("is_active", true),
     ]);
     if (salRes.data) setRecords(salRes.data);

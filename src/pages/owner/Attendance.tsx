@@ -23,7 +23,7 @@ export default function OwnerAttendance() {
   useEffect(() => {
     const fetch = async () => {
       const [attRes, empRes] = await Promise.all([
-        supabase.from("attendance").select("*, profiles!attendance_employee_id_fkey(full_name)").eq("date", selectedDate),
+        supabase.from("attendance").select("*").eq("date", selectedDate),
         supabase.from("profiles").select("user_id, full_name").eq("is_active", true),
       ]);
       if (attRes.data) setRecords(attRes.data);
@@ -39,7 +39,7 @@ export default function OwnerAttendance() {
     }, { onConflict: "employee_id,date" });
     if (error) { toast({ title: "Error", description: error.message, variant: "destructive" }); return; }
     toast({ title: "Attendance marked" });
-    const { data } = await supabase.from("attendance").select("*, profiles!attendance_employee_id_fkey(full_name)").eq("date", selectedDate);
+    const { data } = await supabase.from("attendance").select("*").eq("date", selectedDate);
     if (data) setRecords(data);
   };
 
